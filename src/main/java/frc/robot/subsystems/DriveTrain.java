@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.DriveWithJoysticks;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
@@ -34,8 +35,7 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new DriveWithJoysticks());
   }
 
   //************************************************
@@ -50,7 +50,7 @@ public class DriveTrain extends Subsystem {
   }
 
   /** Drives the robot using mecanum drive in a field-oriented manner */
-  public void mecanumDrive_field(double x, double y, double turn) {
+  public void mecanumDrive_fieldOriented(double x, double y, double turn) {
     drive.driveCartesian(y, x, turn, getFieldGyroAngle());
   }
 
