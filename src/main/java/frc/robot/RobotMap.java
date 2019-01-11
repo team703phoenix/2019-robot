@@ -15,4 +15,8 @@ public class RobotMap {
   public static WPI_TalonSRX rearLeftDrive = new WPI_TalonSRX(2);
   public static WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(3);
   public static WPI_TalonSRX rearRightDrive = new WPI_TalonSRX(4);
+
+  public static final int DRIVE_ENC_TICKS_PER_ROTATION = 960;
+  public static final double WHEEL_DIAMETER = 6 * 0.0254; // Wheel diameter in meters
+  public static final double MAX_VELOCITY = 10.0 * 0.3048; // Max velocity in m/s
 }

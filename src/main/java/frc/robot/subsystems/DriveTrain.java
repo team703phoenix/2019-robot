@@ -15,18 +15,9 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
 public class DriveTrain extends Subsystem {
-  // Motion profiling constants
-  private final double POSITION_TO_MOTOR = 0.2;
-  private final double LEFT_VELOCITY_TO_MOTOR = 0.00706;
-  private final double RIGHT_VELOCITY_TO_MOTOR = 0.00685;
 
   // Drive motors
   private MecanumDrive drive;
-
-  // Trajectories
-  Trajectory leftTraj, rightTraj;
-  int trajLength;
-  int trajPosCount = 0;
 
   public DriveTrain() {
     drive = new MecanumDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive,
@@ -64,40 +55,6 @@ public class DriveTrain extends Subsystem {
 
   //************************************************
   //
-  // MOTION PROFILING
-  //
-  //************************************************
-
-  public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {
-    this.leftTraj = leftTraj;
-    this.rightTraj = rightTraj;
-    trajLength = leftTraj.length();
-  }
-
-  public void runMotionProfile() {
-    Segment leftSeg = leftTraj.get(trajPosCount);
-    Segment rightSeg = rightTraj.get(trajPosCount);
-
-    // Error calculation
-    double leftError = leftSeg.position - getLeftEncPosition();
-    double rightError = rightSeg.position - getRightEncPosition();
-
-    // Term calculation
-		double leftValue = LEFT_VELOCITY_TO_MOTOR * leftSeg.velocity + POSITION_TO_MOTOR * leftError;
-    double rightValue = RIGHT_VELOCITY_TO_MOTOR * rightSeg.velocity +
-      POSITION_TO_MOTOR * rightError;
-
-		tankDrive(leftValue, rightValue);
-
-		trajPosCount++;
-  }
-
-  public boolean motionProfileIsDone() {
-    return trajPosCount >= trajLength;
-  }
-
-  //************************************************
-  //
   // GYRO & ENCODERS
   //
   //************************************************
@@ -105,6 +62,11 @@ public class DriveTrain extends Subsystem {
   /** TODO: Make getGyroAngle() function */
   public double getGyroAngle() {
     return 0.0;
+  }
+
+  /** TODO: Make resetGyro() function */
+  public void resetGyro() {
+    
   }
 
   /** Returns the current gyro angle, bounded from -180 to 180 degrees for field-orientation */
@@ -124,7 +86,7 @@ public class DriveTrain extends Subsystem {
 
   /** TODO: Make resetEncoders() function */
   public void resetEncoders() {
-    trajPosCount = 0;
+
   }
 
   /** TODO: Make getLeftEncVelocity() function */
