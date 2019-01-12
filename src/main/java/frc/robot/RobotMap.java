@@ -7,14 +7,12 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 public class RobotMap {
   // This is just some dummy code so I can test some stuff
-  public static WPI_TalonSRX frontLeftDrive = new WPI_TalonSRX(1);
-  public static WPI_TalonSRX rearLeftDrive = new WPI_TalonSRX(2);
-  public static WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(3);
-  public static WPI_TalonSRX rearRightDrive = new WPI_TalonSRX(4);
+
+  // Drive motor IDs
+  public static final int FL_DRIVE_1 = 1, FL_DRIVE_2 = 2, RL_DRIVE_1 = 3, RL_DRIVE_2 = 4,
+                          FR_DRIVE_1 = 5, FR_DRIVE_2 = 6, RR_DRIVE_1 = 7, RR_DRIVE_2 = 8;
 
   public static final int DRIVE_ENC_TICKS_PER_ROTATION = 960;
   public static final double WHEEL_DIAMETER = 6 * 0.0254; // Wheel diameter in meters

@@ -7,21 +7,50 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoysticks;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Trajectory.Segment;
 
 public class DriveTrain extends Subsystem {
+  // Constants
+  public static final double WHEEL_DIAMETER = 6.0; // Dummy value
 
   // Drive motors
+  private CANSparkMax frontLeft1 = new CANSparkMax(RobotMap.FL_DRIVE_1, MotorType.kBrushless),
+  frontLeft2 = new CANSparkMax(RobotMap.FL_DRIVE_2, MotorType.kBrushless),
+  rearLeft1 = new CANSparkMax(RobotMap.RL_DRIVE_1, MotorType.kBrushless),
+  rearLeft2 = new CANSparkMax(RobotMap.RL_DRIVE_2, MotorType.kBrushless),
+  frontRight1 = new CANSparkMax(RobotMap.FR_DRIVE_1, MotorType.kBrushless),
+  frontRight2 = new CANSparkMax(RobotMap.FR_DRIVE_2, MotorType.kBrushless),
+  rearRight1 = new CANSparkMax(RobotMap.RR_DRIVE_1, MotorType.kBrushless),
+  rearRight2 = new CANSparkMax(RobotMap.RR_DRIVE_2, MotorType.kBrushless);
+
+  // Drive train
   private MecanumDrive drive;
 
+  // Encoders
+  public Encoder frontLeftEnc = new Encoder(frontLeft1), rearLeftEnc = new Encoder(rearLeft1),
+  frontRightEnc = new Encoder(frontRight1), rearRightEnc = new Encoder(rearRight1);
+
+  // Gyro
+  public Gyro gyro = new Gyro();
+
   public DriveTrain() {
-    drive = new MecanumDrive(RobotMap.frontLeftDrive, RobotMap.rearLeftDrive,
-      RobotMap.frontRightDrive, RobotMap.rearRightDrive);
+    frontLeft2.follow(frontLeft1);
+    rearLeft2.follow(rearLeft1);
+    frontRight2.follow(frontRight1);
+    rearRight2.follow(rearRight1);
+
+    frontLeft1.setInverted(true);
+    rearLeft1.setInverted(true);
+    frontRight1.setInverted(false);
+    rearRight1.setInverted(false);
+
+    drive = new MecanumDrive(frontLeft1, rearLeft1, frontRight1, rearRight1);
   }
 
   @Override
@@ -35,17 +64,18 @@ public class DriveTrain extends Subsystem {
   //
   //************************************************
 
-  /** Drives the robot using mecanum drive*/
+  /** Drives the robot using mecanum drive */
   public void mecanumDrive(double x, double y, double turn) {
     drive.driveCartesian(y, x, turn);
   }
 
   /** Drives the robot using mecanum drive in a field-oriented manner */
   public void mecanumDrive_fieldOriented(double x, double y, double turn) {
-    drive.driveCartesian(y, x, turn, getFieldGyroAngle());
+    drive.driveCartesian(y, x, turn, gyro.getFieldAngle());
   }
 
-  /** TODO: Find out how to implement tank drive on a mecanum drive system */
+  /** TODO: Test tank drive on a mecanum chassis to see how well it works */
+  /** Drives the robot using tank drive */
   public void tankDrive(double left, double right) {
     double forward = (left + right) / 2;
     double turn = (left - right) / 2;
@@ -55,47 +85,39 @@ public class DriveTrain extends Subsystem {
 
   //************************************************
   //
-  // GYRO & ENCODERS
+  // ENCODERS
   //
   //************************************************
 
-  /** TODO: Make getGyroAngle() function */
-  public double getGyroAngle() {
-    return 0.0;
+  /** Used for tank-style driving, where you only need one encoder per side.
+   * Uses the front left encoder. */
+  public double getLeftEncPosition() {
+    return frontLeftEnc.getPosition();
   }
 
-  /** TODO: Make resetGyro() function */
-  public void resetGyro() {
-    
+  /** Used for tank-style driving, where you only need one encoder per side.
+   * Uses the front right encoder. */
+  public double getRightEncPosition() {
+    return frontRightEnc.getPosition();
   }
 
-  /** Returns the current gyro angle, bounded from -180 to 180 degrees for field-orientation */
-  public double getFieldGyroAngle() {
-    return ((getGyroAngle() + 180) % 360) - 180;
-  }
-
-  /** TODO: Make getLeftEncPosition() function */
-  public int getLeftEncPosition() {
-    return 0;
-  }
-
-  /** TODO: Make getRightEncPosition() function */
-  public int getRightEncPosition() {
-    return 0;
-  }
-
-  /** TODO: Make resetEncoders() function */
+  /** Resets all the drivetrain encoders */
   public void resetEncoders() {
-
+    frontLeftEnc.reset();
+    rearLeftEnc.reset();
+    frontRightEnc.reset();
+    rearRightEnc.reset();
   }
 
-  /** TODO: Make getLeftEncVelocity() function */
-  public int getLeftEncVelocity() {
-    return 0;
+  /** Used for tank-style driving, where you only need one encoder per side.
+   * Uses the front left encoder. */
+  public double getLeftEncVelocity() {
+    return frontLeftEnc.getVelocity();
   }
 
-  /** TODO: Make getRightEncVelocity() function */
-  public int getRightEncVelocity() {
-    return 0;
+  /** Used for tank-style driving, where you only need one encoder per side.
+   * Uses the front right encoder. */
+  public double getRightEncVelocity() {
+    return frontRightEnc.getVelocity();
   }
 }

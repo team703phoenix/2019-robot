@@ -43,16 +43,16 @@ public class FollowPath extends Command {
     right.configurePIDVA(kP, kI, kD, 1 / RobotMap.MAX_VELOCITY, ACCELERATION_GAIN);
 
     Robot.driveTrain.resetEncoders();
-    Robot.driveTrain.resetGyro();
+    Robot.driveTrain.gyro.reset();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double leftOutput = left.calculate(Robot.driveTrain.getLeftEncPosition());
-    double rightOutput = right.calculate(Robot.driveTrain.getRightEncPosition());
+    double leftOutput = left.calculate((int)Robot.driveTrain.getLeftEncPosition());
+    double rightOutput = right.calculate((int)Robot.driveTrain.getRightEncPosition());
 
-    double gyroHeading = Robot.driveTrain.getGyroAngle();
+    double gyroHeading = Robot.driveTrain.gyro.getAngle();
     double desiredHeading = Pathfinder.r2d(left.getHeading());
     double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
     // I'm not sure how turn is calculated, I'm just copying code from the pathfinder documentation
