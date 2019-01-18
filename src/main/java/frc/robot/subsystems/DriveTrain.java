@@ -21,13 +21,9 @@ public class DriveTrain extends Subsystem {
 
   // Drive motors
   private CANSparkMax frontLeft1 = new CANSparkMax(RobotMap.FL_DRIVE_1, MotorType.kBrushless),
-  frontLeft2 = new CANSparkMax(RobotMap.FL_DRIVE_2, MotorType.kBrushless),
   rearLeft1 = new CANSparkMax(RobotMap.RL_DRIVE_1, MotorType.kBrushless),
-  rearLeft2 = new CANSparkMax(RobotMap.RL_DRIVE_2, MotorType.kBrushless),
   frontRight1 = new CANSparkMax(RobotMap.FR_DRIVE_1, MotorType.kBrushless),
-  frontRight2 = new CANSparkMax(RobotMap.FR_DRIVE_2, MotorType.kBrushless),
-  rearRight1 = new CANSparkMax(RobotMap.RR_DRIVE_1, MotorType.kBrushless),
-  rearRight2 = new CANSparkMax(RobotMap.RR_DRIVE_2, MotorType.kBrushless);
+  rearRight1 = new CANSparkMax(RobotMap.RR_DRIVE_1, MotorType.kBrushless);
 
   // Drive train
   private MecanumDrive drive;
@@ -37,14 +33,10 @@ public class DriveTrain extends Subsystem {
   frontRightEnc = new Encoder(frontRight1), rearRightEnc = new Encoder(rearRight1);
 
   // Gyro
-  public Gyro gyro = new Gyro();
+  //TODO: Change this to whatever the pigeon is plugged into and test to see if it works
+  public Gyro gyro = new Gyro(RobotMap.GYRO_ID);
 
   public DriveTrain() {
-    frontLeft2.follow(frontLeft1);
-    rearLeft2.follow(rearLeft1);
-    frontRight2.follow(frontRight1);
-    rearRight2.follow(rearRight1);
-
     frontLeft1.setInverted(true);
     rearLeft1.setInverted(true);
     frontRight1.setInverted(false);

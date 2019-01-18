@@ -8,13 +8,12 @@
 package frc.robot;
 
 public class RobotMap {
-  // This is just some dummy code so I can test some stuff
-
   // Drive motor IDs
-  public static final int FL_DRIVE_1 = 1, FL_DRIVE_2 = 2, RL_DRIVE_1 = 3, RL_DRIVE_2 = 4,
-                          FR_DRIVE_1 = 5, FR_DRIVE_2 = 6, RR_DRIVE_1 = 7, RR_DRIVE_2 = 8;
+  public static final int FL_DRIVE_1 = 11, FL_DRIVE_2 = 12, RL_DRIVE_1 = 13, RL_DRIVE_2 = 14,
+                          FR_DRIVE_1 = 15, FR_DRIVE_2 = 16, RR_DRIVE_1 = 17, RR_DRIVE_2 = 18;
 
-  public static final int DRIVE_ENC_TICKS_PER_ROTATION = 960;
-  public static final double WHEEL_DIAMETER = 6 * 0.0254; // Wheel diameter in meters
-  public static final double MAX_VELOCITY = 10.0 * 0.3048; // Max velocity in m/s
+  // Gyro ID
+  public static final int GYRO_ID = 19;
+
+  public static final int DRIVE_ENC_TICKS_PER_ROTATION = 42;
 }

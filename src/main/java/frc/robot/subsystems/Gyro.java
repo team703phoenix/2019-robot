@@ -7,25 +7,33 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import com.ctre.phoenix.sensors.PigeonIMU;
+
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Gyro extends Subsystem {
   // Constants
   private final double GYRO_SCALER = 1.00;
 
-  // Gyro
-  private ADXRS450_Gyro gyro; // Not sure which gyro we're using, but we can fix that later
+  // IMU
+  private PigeonIMU pigeon;
   
   // Control variables
   private double zeroedPosition = 0.0;
+
+  public Gyro(int deviceID) {
+    pigeon = new PigeonIMU(deviceID);
+  }
 
   @Override
   public void initDefaultCommand() {
   }
 
   public double getRawAngle() {
-    return gyro.getAngle() * GYRO_SCALER;
+    double[] angles = {0.0, 0.0, 0.0};
+    pigeon.getAccumGyro(angles);
+    return  -angles[2] * GYRO_SCALER;
   }
 
   public double getAngle() {
@@ -38,5 +46,11 @@ public class Gyro extends Subsystem {
 
   public void reset() {
     zeroedPosition = getRawAngle();
+  }
+
+  public void hardReset() {
+    pigeon.setAccumZAngle(0.0, 0);
+    zeroedPosition = 0.0;
+		while (Math.abs(getRawAngle()) > 3);
   }
 }
