@@ -43,27 +43,28 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   // Joysticks
-  Joystick leftJoy = new Joystick(0);
-  Joystick rightJoy = new Joystick(1);
+  Joystick controller = new Joystick(0);
+  //Joystick leftJoy = new Joystick(0);
+  //Joystick rightJoy = new Joystick(1);
 
   // Axis mappings
   private final int X_DRIVE_AXIS = 0;
   private final int Y_DRIVE_AXIS = 1;
-  private final int TURN_DRIVE_AXIS = 0;
+  private final int TURN_DRIVE_AXIS = 2;
 
   public OI() {
     
   }
 
   public double getXDrive() {
-    return leftJoy.getRawAxis(X_DRIVE_AXIS);
+    return controller.getRawAxis(X_DRIVE_AXIS);
   }
 
   public double getYDrive() {
-    return leftJoy.getRawAxis(Y_DRIVE_AXIS);
+    return controller.getRawAxis(Y_DRIVE_AXIS);
   }
 
   public double getTurnDrive() {
-    return rightJoy.getRawAxis(TURN_DRIVE_AXIS);
+    return controller.getRawAxis(TURN_DRIVE_AXIS);
   }
 }
