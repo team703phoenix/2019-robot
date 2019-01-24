@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+import frc.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,8 +55,13 @@ public class OI {
   private final int Y_DRIVE_AXIS = 1;
   private final int TURN_DRIVE_AXIS = 2;
 
+  // Button mappings
+  private final int TOGGLE_LED_BTN = 4; // Dummy value
+
   public OI() {
-    
+    JoystickButton toggleLED = new JoystickButton(controller, TOGGLE_LED_BTN);
+
+    toggleLED.toggleWhenPressed(new ControlVisionLight());
   }
 
   public double getXDrive() {

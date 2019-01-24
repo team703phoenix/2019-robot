@@ -10,21 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DriveWithJoysticks extends Command {
-  public DriveWithJoysticks() {
-    requires(Robot.driveTrain);
+public class ControlVisionLight extends Command {
+  public ControlVisionLight() {
+    requires(Robot.vision);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.vision.setLEDOn();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.mecanumDrive_fieldOriented(Robot.oi.getXDrive(), Robot.oi.getYDrive(),
-      Robot.oi.getTurnDrive());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +35,7 @@ public class DriveWithJoysticks extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.vision.setLEDOff();
   }
 
   // Called when another command which requires one or more of the same

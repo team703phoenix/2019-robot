@@ -9,15 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
+  public static Vision vision;
   public static OI oi;
 
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
+    vision = new Vision();
     oi = new OI();
   }
 

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.DriveWithController;
 
 public class DriveTrain extends Subsystem {
   // Constants
@@ -39,7 +39,6 @@ public class DriveTrain extends Subsystem {
   frontRightEnc = new Encoder(frontRight1), rearRightEnc = new Encoder(rearRight1);
 
   // Gyro
-  // TODO: Assign a device ID to the pigeon
   public Gyro gyro = new Gyro(RobotMap.GYRO_ID);
 
   // Control variables
@@ -61,7 +60,7 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new DriveWithJoysticks());
+    setDefaultCommand(new DriveWithController());
   }
 
   //************************************************
