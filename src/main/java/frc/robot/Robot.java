@@ -21,6 +21,8 @@ public class Robot extends TimedRobot {
     driveTrain = new DriveTrain();
     vision = new Vision();
     oi = new OI();
+
+    driveTrain.gyro.hardReset();
   }
 
   @Override
@@ -48,11 +50,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    driveTrain.gyro.hardReset();
   }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    System.out.println("ta: " + vision.getArea());
   }
 
   @Override

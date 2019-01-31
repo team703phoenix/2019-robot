@@ -18,8 +18,9 @@ import frc.robot.commands.DriveWithController;
 
 public class DriveTrain extends Subsystem {
   // Constants
-  public static final double ACCELERATION_RATE = 0.07;
+  public static final double ACCELERATION_RATE = 0.05;
   public static final double WHEEL_DIAMETER = 6.0; // Dummy value
+  public static final double DRIVE_DEADBAND = 0.07;
 
   // Drive motors
   private CANSparkMax frontLeft1 = new CANSparkMax(RobotMap.FL_DRIVE_1, MotorType.kBrushless),
@@ -45,8 +46,8 @@ public class DriveTrain extends Subsystem {
   private double xDrive = 0.0, yDrive = 0.0, turnDrive = 0.0;
 
   public DriveTrain() {
-    frontLeft1.setInverted(true);
-    rearLeft1.setInverted(true);
+    frontLeft1.setInverted(false);
+    rearLeft1.setInverted(false);
     frontRight1.setInverted(false);
     rearRight1.setInverted(false);
 
@@ -75,7 +76,9 @@ public class DriveTrain extends Subsystem {
     xDrive = x;
     turnDrive = turn;
 
-    drive.driveCartesian(yDrive, xDrive, turnDrive);
+    drive.driveCartesian((Math.abs(xDrive) > DRIVE_DEADBAND) ? xDrive : 0.0, 
+      (Math.abs(yDrive) > DRIVE_DEADBAND) ? yDrive : 0.0,
+      (Math.abs(turnDrive) > DRIVE_DEADBAND) ? turnDrive : 0.0);
   }
 
   /** Drives the robot using mecanum drive, with an acceleration curve */
@@ -84,7 +87,9 @@ public class DriveTrain extends Subsystem {
     xDrive = accelDecel(x, xDrive);
     turnDrive = accelDecel(turn, turnDrive);
 
-    drive.driveCartesian(yDrive, xDrive, turnDrive);
+    drive.driveCartesian((Math.abs(xDrive) > DRIVE_DEADBAND) ? xDrive : 0.0,
+      (Math.abs(yDrive) > DRIVE_DEADBAND) ? yDrive : 0.0, 
+      (Math.abs(turnDrive) > DRIVE_DEADBAND) ? turnDrive : 0.0);
   }
 
   /** Drives the robot using mecanum drive, with an acceleration curve */
@@ -98,7 +103,9 @@ public class DriveTrain extends Subsystem {
     xDrive = accelDecel(x, xDrive);
     turnDrive = accelDecel(turn, turnDrive);
 
-    drive.driveCartesian(yDrive, xDrive, turnDrive, gyro.getFieldAngle());
+    drive.driveCartesian((Math.abs(xDrive) > DRIVE_DEADBAND) ? xDrive : 0.0, 
+      (Math.abs(yDrive) > DRIVE_DEADBAND) ? yDrive : 0.0,
+      (Math.abs(turnDrive) > DRIVE_DEADBAND) ? turnDrive : 0.0, gyro.getFieldAngle());
   }
 
   /** Drives the robot using mecanum drive in a field-oriented manner, with an acceleration curve */
@@ -106,7 +113,6 @@ public class DriveTrain extends Subsystem {
     mecanumDrive_fieldOriented(Robot.oi.getXDrive(), Robot.oi.getYDrive(), Robot.oi.getTurnDrive());
   }
 
-  /** TODO: Test tank drive on a mecanum chassis to see how well it works */
   /** Drives the robot using tank drive */
   public void tankDrive(double left, double right) {
     double forward = (left + right) / 2;
@@ -164,5 +170,10 @@ public class DriveTrain extends Subsystem {
    * Uses the front right encoder. */
   public double getRightEncVelocity() {
     return frontRightEnc.getVelocity();
+  }
+
+  /** Converts a raw axis value to the curve used for the drive */
+  public double calculateDrive(double axis) {
+    return Math.pow(axis, 3);
   }
 }

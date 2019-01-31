@@ -23,7 +23,8 @@ public class DriveWithController extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.mecanumDrive_fieldOriented();
+    //Robot.driveTrain.mecanumDrive_fieldOriented();
+    Robot.driveTrain.mecanumDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()

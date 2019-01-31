@@ -112,12 +112,10 @@ public class Vision extends Subsystem {
 
   public void setTargetPipeline(int timeoutMs) {
     setPipeline(TARGET_PIPELINE);
-    sleep(timeoutMs);
   }
 
   public void setCargoPipeline(int timeoutMs) {
     setPipeline(CARGO_PIPELINE);
-    sleep(timeoutMs);
   }
 
   /** Sets the given key to the given value */
@@ -143,10 +141,5 @@ public class Vision extends Subsystem {
   /** Finds a double from the limelight output using the given key */
 	public double getDouble(String key) {
 		return getDouble(key, 0.0);
-  }
-  
-  private void sleep(int timeoutMs) {
-    timer.reset();
-    while(timer.get() <= timeoutMs / 1000.0);
   }
 }

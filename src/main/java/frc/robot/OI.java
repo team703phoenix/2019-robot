@@ -54,14 +54,19 @@ public class OI {
   private final int X_DRIVE_AXIS = 0;
   private final int Y_DRIVE_AXIS = 1;
   private final int TURN_DRIVE_AXIS = 2;
+  private final int LEFT_DRIVE_AXIS = 1;
+  private final int RIGHT_DRIVE_AXIS = 3;
 
   // Button mappings
-  private final int TOGGLE_LED_BTN = 4; // Dummy value
+  private final int TOGGLE_LED_BTN = 4;
+  private final int DRIVE_TOWARD_TARGET_BTN = 1;
 
   public OI() {
-    JoystickButton toggleLED = new JoystickButton(controller, TOGGLE_LED_BTN);
+    JoystickButton toggleLED = new JoystickButton(controller, TOGGLE_LED_BTN),
+    driveTowardTarget = new JoystickButton(controller, DRIVE_TOWARD_TARGET_BTN);
 
     toggleLED.toggleWhenPressed(new ControlVisionLight());
+    driveTowardTarget.toggleWhenPressed(new DriveTowardTarget(false));
   }
 
   public double getXDrive() {
@@ -69,10 +74,18 @@ public class OI {
   }
 
   public double getYDrive() {
-    return controller.getRawAxis(Y_DRIVE_AXIS);
+    return -controller.getRawAxis(Y_DRIVE_AXIS);
   }
 
   public double getTurnDrive() {
     return controller.getRawAxis(TURN_DRIVE_AXIS);
+  }
+
+  public double getLeftDrive() {
+    return -controller.getRawAxis(LEFT_DRIVE_AXIS);
+  }
+
+  public double getRightDrive() {
+    return -controller.getRawAxis(RIGHT_DRIVE_AXIS);
   }
 }

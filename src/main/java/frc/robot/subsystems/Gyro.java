@@ -41,7 +41,7 @@ public class Gyro extends Subsystem {
   }
 
   public double getFieldAngle() {
-    return ((getRawAngle() + 180) % 360) - 180; 
+    return -(((getRawAngle() + 180) % 360) - 180); 
   }
 
   public void reset() {
