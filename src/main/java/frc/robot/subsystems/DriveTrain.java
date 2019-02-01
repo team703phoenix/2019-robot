@@ -36,8 +36,10 @@ public class DriveTrain extends Subsystem {
   private MecanumDrive drive;
 
   // Encoders
-  public Encoder frontLeftEnc = new Encoder(frontLeft1), rearLeftEnc = new Encoder(rearLeft1),
-  frontRightEnc = new Encoder(frontRight1), rearRightEnc = new Encoder(rearRight1);
+  public Encoder frontLeftEnc = new SparkEncoder(frontLeft1),
+  rearLeftEnc = new SparkEncoder(rearLeft1),
+  frontRightEnc = new SparkEncoder(frontRight1), 
+  rearRightEnc = new SparkEncoder(rearRight1);
 
   // Gyro
   public Gyro gyro = new Gyro(RobotMap.GYRO_ID);

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.SparkEncoder;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.PathfinderFRC;
 import jaci.pathfinder.Trajectory;
@@ -26,7 +27,7 @@ public class FollowPath extends Command {
   // Constants
   private final double DRIVETRAIN_WHEEL_DIAMETER = 4.25 / 12.0; // in feet
   private final double MAX_VELOCITY = 5.0; // in feet
-  private final int ENCODER_TICKS_PER_ROTATION = 2259;
+  private final int ENCODER_TICKS_PER_ROTATION = SparkEncoder.TICKS_PER_ROTATION;
 
   // Trajectories
   String pathName;

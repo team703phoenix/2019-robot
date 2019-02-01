@@ -13,12 +13,14 @@ import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
+  public static Elevator elevator;
   public static Vision vision;
   public static OI oi;
 
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
+    elevator = new Elevator();
     vision = new Vision();
     oi = new OI();
 

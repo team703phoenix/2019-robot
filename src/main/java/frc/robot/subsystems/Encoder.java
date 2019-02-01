@@ -10,30 +10,26 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-public class Encoder extends Subsystem {
-  // Constants
-  public static final int TICKS_PER_ROTATION = 0; // Dummy value
+public abstract class Encoder {
+  // Control variables
+  protected static int ticksPerRotation;
 
   // Encoder
   private CANEncoder encoder;
     
   // Control variables
-  private double zeroedPosition = 0.0;
+  protected double zeroedPosition = 0.0;
 
   public void initDefaultCommand() {
   }
   
   /** Creates a new encoder attached to the given Spark Max motor controller */
-  public Encoder(CANSparkMax attachedMotor) {
-    encoder = new CANEncoder(attachedMotor);
+  public Encoder(int ticksPerRotation) {
+    this.ticksPerRotation = ticksPerRotation;
   }
   
   /** Returns the raw, unzeroed position of the encoder in ticks */
-  public double getRawPosition() {
-    return encoder.getPosition();
-  }
+  public abstract double getRawPosition();
   
   /** Returns the position of the encoder in ticks,
    * relative to the zero point set by the reset() function */
@@ -42,20 +38,18 @@ public class Encoder extends Subsystem {
   }
   
   /** Returns the velocity of the encoder in ticks */
-  public double getVelocity() {
-    return encoder.getVelocity();
-  }
+  public abstract double getVelocity();
   
   /** Resets the encoder's position value to 0 */
   public void reset() {
     zeroedPosition = getRawPosition();
   }
 
-  public static double inchesToTicks(double inches) {
-    return inches / (DriveTrain.WHEEL_DIAMETER * Math.PI) * TICKS_PER_ROTATION;
+  public static double driveInchesToTicks(double inches) {
+    return inches / (DriveTrain.WHEEL_DIAMETER * Math.PI) * ticksPerRotation;
   }
 
-  public static double ticksToInches(double ticks) {
-    return (ticks * DriveTrain.WHEEL_DIAMETER * Math.PI) / TICKS_PER_ROTATION;
+  public static double driveTicksToInches(double ticks) {
+    return (ticks * DriveTrain.WHEEL_DIAMETER * Math.PI) / ticksPerRotation;
   }
 }
