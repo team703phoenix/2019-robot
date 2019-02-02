@@ -15,6 +15,7 @@ import frc.robot.RobotMap;
 public class Elevator extends Subsystem {
   // Constants
   public static final double BOTTOM_HEIGHT = elevatorInchesToTicks(0.0);
+  public static final double HATCH_HEIGHT_OFFSET = elevatorInchesToTicks(0.0);
   public static final int TICKS_PER_ROTATION = TalonEncoder.TICKS_PER_ROTATION;
   public static final int ACCEPTED_RANGE = 10 / 2;
 

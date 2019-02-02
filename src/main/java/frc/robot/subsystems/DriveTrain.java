@@ -21,6 +21,7 @@ public class DriveTrain extends Subsystem {
   public static final double ACCELERATION_RATE = 0.05;
   public static final double WHEEL_DIAMETER = 6.0; // Dummy value
   public static final double DRIVE_DEADBAND = 0.07;
+  public static final double GYRO_CORRECTION_SCALER = 0.08;
 
   // Drive motors
   private CANSparkMax frontLeft1 = new CANSparkMax(RobotMap.FL_DRIVE_1, MotorType.kBrushless),
@@ -123,6 +124,11 @@ public class DriveTrain extends Subsystem {
     mecanumDrive(0, forward, turn);
   }
 
+
+  public void gyroAssistedDrive(double speed) {
+		mecanumDrive(0, speed, -getGyroCorrectionAngle());
+	}
+
   public static double accelDecel(double desiredSpeed, double currentSpeed) {
     double acceptedRange = ACCELERATION_RATE / 2.0;
 
@@ -177,5 +183,9 @@ public class DriveTrain extends Subsystem {
   /** Converts a raw axis value to the curve used for the drive */
   public double calculateDrive(double axis) {
     return Math.pow(axis, 3);
+  }
+
+  public double getGyroCorrectionAngle() {
+    return gyro.getAngle() * GYRO_CORRECTION_SCALER;
   }
 }
