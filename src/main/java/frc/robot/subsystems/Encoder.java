@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMax;
 
 public abstract class Encoder {
   // Control variables
-  protected static int ticksPerRotation;
+  protected int ticksPerRotation;
 
   // Encoder
   private CANEncoder encoder;
@@ -45,11 +45,11 @@ public abstract class Encoder {
     zeroedPosition = getRawPosition();
   }
 
-  public static double driveInchesToTicks(double inches) {
+  public double driveInchesToTicks(double inches) {
     return inches / (DriveTrain.WHEEL_DIAMETER * Math.PI) * ticksPerRotation;
   }
 
-  public static double driveTicksToInches(double ticks) {
+  public double driveTicksToInches(double ticks) {
     return (ticks * DriveTrain.WHEEL_DIAMETER * Math.PI) / ticksPerRotation;
   }
 }

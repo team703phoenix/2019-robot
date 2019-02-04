@@ -7,66 +7,50 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.Elevator;
 
-public class MoveElevatorToPosition extends Command {
+public class ShootCargo extends Command {
   // Constants
-  private static final double kP = 0.0001;
-  private static final double MAX_SPEED = 0.50;
-  private static final double MIN_SPEED = 0.10;
+  private static final double SHOOT_TIMEOUT = 1.0;
+  private static final double SHOOT_SPEED = 0.8;
 
-  // Control variables
-  private double heightInTicks;
+  // Timer
+  private Timer timer = new Timer();
 
-  public MoveElevatorToPosition(double heightInInches) {
-    requires(Robot.elevator);
-
-    heightInTicks = Elevator.elevatorTicksToInches(heightInInches);
+  public ShootCargo() {
+    //requires(Robot.cargoMechanism);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    timer.reset();
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double error = heightInTicks - Robot.elevator.heightInTicks();
-
-    if (error >= 0.0) { // Move up
-      if (error <= MIN_SPEED)
-        Robot.elevator.move(MIN_SPEED);
-      else if (error >= MAX_SPEED)
-        Robot.elevator.move(MAX_SPEED);
-      else
-        Robot.elevator.move(error);
-    } else { // Move down
-      if (error >= -MIN_SPEED)
-        Robot.elevator.move(-MIN_SPEED);
-      else if (error <= -MAX_SPEED)
-        Robot.elevator.move(-MAX_SPEED);
-      else
-        Robot.elevator.move(error);
-    }
+    //Robot.cargoMechanism.run(-SHOOT_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.inAcceptedRange(heightInTicks);
+    return timer.get() >= SHOOT_TIMEOUT;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    //Robot.cargoMechanism.run(0.0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

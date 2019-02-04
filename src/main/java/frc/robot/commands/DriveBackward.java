@@ -16,7 +16,7 @@ public class DriveBackward extends Command {
 
     public DriveBackward(double distanceInInches) {
         requires(Robot.driveTrain);
-        distanceInTicks = Encoder.driveInchesToTicks(distanceInInches);
+        distanceInTicks = Robot.driveTrain.frontLeftEnc.driveInchesToTicks(distanceInInches);
     }
 
     // Called just before this Command runs the first time

@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,7 +15,7 @@ public class DriveForward extends Command {
 
     public DriveForward(double distanceInInches) {
         requires(Robot.driveTrain);
-        distanceInTicks = Encoder.driveInchesToTicks(distanceInInches);
+        distanceInTicks = Robot.driveTrain.frontLeftEnc.driveInchesToTicks(distanceInInches);
     }
 
     // Called just before this Command runs the first time

@@ -28,6 +28,10 @@ public class DriveTowardTarget extends Command {
     this.scanLeft = scanLeft;
   }
 
+  public DriveTowardTarget() {
+    this(Robot.vision.getLatestErrorX() < 0.0);
+  }
+
   // Called just before this Command runs the first time
   protected void initialize() {
     Robot.vision.setTargetPipeline(PIPELINE_TIMEOUT);
