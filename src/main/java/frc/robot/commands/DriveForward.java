@@ -15,7 +15,7 @@ public class DriveForward extends Command {
 
     public DriveForward(double distanceInInches) {
         requires(Robot.driveTrain);
-        distanceInTicks = Robot.driveTrain.frontLeftEnc.driveInchesToTicks(distanceInInches);
+        distanceInTicks = Robot.driveTrain.encoderInchesToTicks(distanceInInches);
     }
 
     // Called just before this Command runs the first time

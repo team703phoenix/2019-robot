@@ -13,17 +13,17 @@ import frc.robot.subsystems.Elevator;
 
 public class MoveElevatorToPosition extends Command {
   // Constants
-  private static final double kP = 0.0001;
-  private static final double MAX_SPEED = 0.50;
-  private static final double MIN_SPEED = 0.10;
+  private static final double kP = 0.001;
+  private static final double MAX_SPEED = 0.60;
+  private static final double MIN_SPEED = 0.20;
 
   // Control variables
-  private double heightInTicks;
+  private double absoluteHeight;
 
-  public MoveElevatorToPosition(double heightInInches) {
+  public MoveElevatorToPosition(double absoluteHeightInInches) {
     requires(Robot.elevator);
 
-    heightInTicks = Elevator.elevatorTicksToInches(heightInInches);
+    this.absoluteHeight = absoluteHeightInInches;
   }
 
   // Called just before this Command runs the first time
@@ -34,7 +34,7 @@ public class MoveElevatorToPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double error = heightInTicks - Robot.elevator.heightInTicks();
+    double error = (absoluteHeight - Robot.elevator.getAbsoluteHeight()) * kP;
 
     if (error >= 0.0) { // Move up
       if (error <= MIN_SPEED)
@@ -56,7 +56,7 @@ public class MoveElevatorToPosition extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.inAcceptedRange(heightInTicks);
+    return Robot.elevator.inAcceptedRange(absoluteHeight);
   }
 
   // Called once after isFinished returns true

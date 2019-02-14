@@ -8,9 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.subsystems.Elevator;
 
 public class HatchMoveToBottom extends CommandGroup {
   public HatchMoveToBottom() {
-    addSequential(new MoveElevatorToPosition(0.0));
+    addSequential(new MoveElevatorToPosition(19.0 - Elevator.HATCH_HEIGHT_OFFSET)); // 1 ft 7 in
   }
 }

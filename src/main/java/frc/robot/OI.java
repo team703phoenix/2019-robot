@@ -63,10 +63,12 @@ public class OI {
 
   public OI() {
     JoystickButton toggleLED = new JoystickButton(controller, TOGGLE_LED_BTN),
-    driveTowardTarget = new JoystickButton(controller, DRIVE_TOWARD_TARGET_BTN);
+    driveTowardTarget = new JoystickButton(controller, DRIVE_TOWARD_TARGET_BTN),
+    resetSensors = new JoystickButton(controller, 5);
 
     toggleLED.toggleWhenPressed(new ControlVisionLight());
     driveTowardTarget.toggleWhenPressed(new DriveTowardTarget(false));
+    resetSensors.whenPressed(new ResetSensors());
   }
 
   public double getXDrive() {

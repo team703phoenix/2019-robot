@@ -11,6 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CargoMoveToMiddle extends CommandGroup {
   public CargoMoveToMiddle() {
-    addSequential(new MoveElevatorToPosition(0.0));
+    addSequential(new MoveElevatorToPosition(55.5)); // 4 ft 7.5 in
   }
 }

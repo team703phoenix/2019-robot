@@ -9,8 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CargoMoveToBottom extends CommandGroup {
-  public CargoMoveToBottom() {
-    addSequential(new MoveElevatorToPosition(27.5)); // 2 ft 3.5 in
+public class ResetSensors extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public ResetSensors() {
+    addParallel(new ResetDriveEncoders());
+    addParallel(new ResetGyro());
+    addParallel(new ResetElevatorEncoders());
   }
 }

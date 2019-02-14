@@ -7,25 +7,15 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-
-public abstract class Encoder {
-  // Control variables
-  protected int ticksPerRotation;
-
-  // Encoder
-  private CANEncoder encoder;
-    
+public abstract class Encoder { 
   // Control variables
   protected double zeroedPosition = 0.0;
 
   public void initDefaultCommand() {
   }
   
-  /** Creates a new encoder attached to the given Spark Max motor controller */
-  public Encoder(int ticksPerRotation) {
-    this.ticksPerRotation = ticksPerRotation;
+  /** Creates a new encoder */
+  public Encoder() {
   }
   
   /** Returns the raw, unzeroed position of the encoder in ticks */
@@ -43,13 +33,5 @@ public abstract class Encoder {
   /** Resets the encoder's position value to 0 */
   public void reset() {
     zeroedPosition = getRawPosition();
-  }
-
-  public double driveInchesToTicks(double inches) {
-    return inches / (DriveTrain.WHEEL_DIAMETER * Math.PI) * ticksPerRotation;
-  }
-
-  public double driveTicksToInches(double ticks) {
-    return (ticks * DriveTrain.WHEEL_DIAMETER * Math.PI) / ticksPerRotation;
   }
 }

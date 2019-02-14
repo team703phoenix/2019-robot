@@ -18,8 +18,6 @@ public class SparkEncoder extends Encoder {
   private CANEncoder encoder;
 
   public SparkEncoder(CANSparkMax attachedMotor) {
-    super(TICKS_PER_ROTATION);
-
     encoder = new CANEncoder(attachedMotor);
   }
 

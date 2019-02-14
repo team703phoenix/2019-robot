@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -29,6 +30,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Front left enc", driveTrain.frontLeftEnc.getPosition());
+    SmartDashboard.putNumber("Rear left enc", driveTrain.rearLeftEnc.getPosition());
+    SmartDashboard.putNumber("Front right enc", driveTrain.frontRightEnc.getPosition());
+    SmartDashboard.putNumber("rear right enc", driveTrain.rearRightEnc.getPosition());
+    SmartDashboard.putNumber("Gyro angle", driveTrain.gyro.getAngle());
   }
 
   @Override

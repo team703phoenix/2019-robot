@@ -7,10 +7,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot;
 
-public class CargoMoveToBottom extends CommandGroup {
-  public CargoMoveToBottom() {
-    addSequential(new MoveElevatorToPosition(27.5)); // 2 ft 3.5 in
+public class ResetDriveEncoders extends InstantCommand {
+  public ResetDriveEncoders() {
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    Robot.driveTrain.resetEncoders();
+  }
+
 }

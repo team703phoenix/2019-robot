@@ -188,4 +188,12 @@ public class DriveTrain extends Subsystem {
   public double getGyroCorrectionAngle() {
     return gyro.getAngle() * GYRO_CORRECTION_SCALER;
   }
+
+  public double encoderInchesToTicks(double inches) {
+    return inches / (DriveTrain.WHEEL_DIAMETER * Math.PI) * SparkEncoder.TICKS_PER_ROTATION;
+  }
+
+  public double encoderTicksToInches(double ticks) {
+    return (ticks * DriveTrain.WHEEL_DIAMETER * Math.PI) / SparkEncoder.TICKS_PER_ROTATION;
+  }
 }

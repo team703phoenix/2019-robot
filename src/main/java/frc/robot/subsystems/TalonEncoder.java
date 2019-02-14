@@ -19,10 +19,7 @@ public class TalonEncoder extends Encoder {
   private WPI_TalonSRX attachedMotor;
 
   public TalonEncoder(WPI_TalonSRX attachedMotor) {
-    super(TICKS_PER_ROTATION);
-
     this.attachedMotor = attachedMotor;
-
     this.attachedMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
   }
 
