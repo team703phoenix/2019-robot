@@ -33,7 +33,7 @@ public class ShootCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoIntake.move((Math.abs(Robot.oi.getIntakeDrive()) > INTAKE_DEADBAND));
+    Robot.cargoIntake.move((Math.abs(Robot.oi.getCargoIntakeDrive()) > INTAKE_DEADBAND));
     //Robot.cargoMechanism.run(-SHOOT_SPEED);
   }
 

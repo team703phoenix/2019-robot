@@ -25,6 +25,7 @@ public class OI {
   private final int RIGHT_DRIVE_AXIS = 3;
 
   // Driver controller button mappings
+  private final int DRIVE_TOWARD_TARGET_BTN = 10;
   private final int FRONT_CLIMBER_UP = 5;
   private final int FRONT_CLIMBER_DOWN = 3;
   private final int BACK_CLIMBER_UP = 6;
@@ -33,33 +34,33 @@ public class OI {
 
 
   // Operator controller axis mappings
-  private final int ELEVATOR_DRIVE_AXIS = 1;
-  private final int CARGO_INTAKE_AXIS = 3;
+  private final int ELEVATOR_DRIVE_AXIS = 1; // Left Y-axis
+  private final int INTAKE_CARGO_AXIS = 2; // Left trigger
+  private final int SHOOT_CARGO_AXIS = 3; // Right trigger
 
   // Operator controller button mappings
-  private final int RESET_SENSORS_BTN = 1; // x
-  private final int TOGGLE_LED_BTN = 3; // b
-  private final int DRIVE_TOWARD_TARGET_BTN = 4; // y
-  private final int TEST_ELEVATOR_BTN = 2; // a
-  private final int TOGGLE_INTAKE_LIFT_BTN = 11; // Left thumb click
-  private final int INTAKE_CARGO_BTN = 7; // Left trigger
-  private final int SHOOT_CARGO_BTN = 8; // Right trigger
+  private final int TOGGLE_LED_BTN = 2; // b
+  private final int TEST_ELEVATOR_BTN = 3; // x
+  private final int CLAMP_HATCH_BTN = 5; // Left bumper
+  private final int RELEASE_HATCH_BTN = 6; // Right bumper
+  private final int TOGGLE_HATCH_EXTEND_BTN = 9; // Left thumb click
+  private final int TOGGLE_CARGO_INTAKE_LIFT_BTN = 10; // Right thumb click
 
   public OI() {
     // Driver controller button initializations
-    JoystickButton frontClimberUp = new JoystickButton(driverController, FRONT_CLIMBER_UP),
+    JoystickButton driveTowardTarget = new JoystickButton(driverController, DRIVE_TOWARD_TARGET_BTN),
+    frontClimberUp = new JoystickButton(driverController, FRONT_CLIMBER_UP),
     frontClimberDown = new JoystickButton(driverController, FRONT_CLIMBER_DOWN),
     backClimberUp = new JoystickButton(driverController, BACK_CLIMBER_UP),
     backClimberDown = new JoystickButton(driverController, BACK_CLIMBER_DOWN);
 
     // Operator controller button initializations
     JoystickButton toggleLED = new JoystickButton(operatorController, TOGGLE_LED_BTN),
-    driveTowardTarget = new JoystickButton(operatorController, DRIVE_TOWARD_TARGET_BTN),
-    resetSensors = new JoystickButton(operatorController, RESET_SENSORS_BTN),
     testElevator = new JoystickButton(operatorController, TEST_ELEVATOR_BTN),
-    toggleIntakeLift = new JoystickButton(operatorController, TOGGLE_INTAKE_LIFT_BTN),
-    intakeCargo = new JoystickButton(operatorController, INTAKE_CARGO_BTN),
-    shootCargo = new JoystickButton(operatorController, SHOOT_CARGO_BTN);
+    toggleHatchExtend = new JoystickButton(operatorController, TOGGLE_HATCH_EXTEND_BTN),
+    toggleCargoIntakeLift = new JoystickButton(operatorController, TOGGLE_CARGO_INTAKE_LIFT_BTN),
+    clampHatch = new JoystickButton(operatorController, CLAMP_HATCH_BTN),
+    releaseHatch = new JoystickButton(operatorController, RELEASE_HATCH_BTN);
 
 
 
@@ -72,11 +73,11 @@ public class OI {
     // Operator controller button functions
     toggleLED.whenPressed(new ToggleVisionLight());
     driveTowardTarget.toggleWhenPressed(new DriveTowardTarget(false));
-    resetSensors.whenPressed(new ResetSensors());
     testElevator.toggleWhenPressed(new CargoMoveToCargoShip());
-    toggleIntakeLift.whenPressed(new ToggleCargoIntakeLift());
-    intakeCargo.whileHeld(new ControlCargoIntake());
-    shootCargo.whileHeld(new ControlCargoShoot());
+    toggleHatchExtend.whenPressed(new ToggleHatchExtend());
+    toggleCargoIntakeLift.whenPressed(new ToggleCargoIntakeLift());
+    clampHatch.whenPressed(new ClampHatchPanel());
+    releaseHatch.whenPressed(new ReleaseHatchPanel());
 
   }
 
@@ -104,7 +105,8 @@ public class OI {
     return -operatorController.getRawAxis(ELEVATOR_DRIVE_AXIS);
   }
 
-  public double getIntakeDrive() {
-    return -operatorController.getRawAxis(CARGO_INTAKE_AXIS);
+  public double getCargoIntakeDrive() {
+    return operatorController.getRawAxis(INTAKE_CARGO_AXIS) - 
+      operatorController.getRawAxis(SHOOT_CARGO_AXIS);
   }
 }
