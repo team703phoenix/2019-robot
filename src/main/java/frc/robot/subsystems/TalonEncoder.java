@@ -19,13 +19,20 @@ public class TalonEncoder extends Encoder {
   private WPI_TalonSRX attachedMotor;
 
   public TalonEncoder(WPI_TalonSRX attachedMotor) {
+    this(attachedMotor, false);
+  }
+
+  public TalonEncoder(WPI_TalonSRX attachedMotor, boolean inverted) {
+    super(inverted);
+
     this.attachedMotor = attachedMotor;
     this.attachedMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
   }
 
   @Override
   public double getRawPosition() {
-    return attachedMotor.getSelectedSensorPosition();
+    return (inverted) ? -attachedMotor.getSelectedSensorPosition() : 
+      attachedMotor.getSelectedSensorPosition();
   }
 
   public void hardReset() {
@@ -35,6 +42,7 @@ public class TalonEncoder extends Encoder {
 
   @Override
   public double getVelocity() {
-    return attachedMotor.getSelectedSensorVelocity();
+    return (inverted) ? -attachedMotor.getSelectedSensorVelocity() : 
+      attachedMotor.getSelectedSensorVelocity();
   }
 }

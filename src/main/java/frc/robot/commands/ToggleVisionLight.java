@@ -7,15 +7,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot;
+import frc.robot.subsystems.Vision;
 
-public class ResetSensors extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public ResetSensors() {
-    addParallel(new ResetDriveEncoders());
-    addParallel(new ResetGyro());
-    addParallel(new ResetElevatorEncoder());
+public class ToggleVisionLight extends InstantCommand {
+  public ToggleVisionLight() {
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    switch (Robot.vision.getLEDMode()) {
+      case Vision.LED_OFF:
+        Robot.vision.setLEDOn();
+        break;
+      case Vision.LED_ON: default:
+        Robot.vision.setLEDOff();
+        break;
+    }
+  }
+
 }

@@ -22,7 +22,7 @@ public class DriveBackward extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.resetEncoders();
-    	Robot.driveTrain.gyro.reset();
+    	//Robot.driveTrain.gyro.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run

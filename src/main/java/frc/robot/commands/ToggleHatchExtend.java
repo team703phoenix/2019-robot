@@ -7,15 +7,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot;
 
-public class ResetSensors extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public ResetSensors() {
-    addParallel(new ResetDriveEncoders());
-    addParallel(new ResetGyro());
-    addParallel(new ResetElevatorEncoder());
+public class ToggleHatchExtend extends InstantCommand {
+  public ToggleHatchExtend() {
+    requires(Robot.hatchMechanism);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    if (Robot.hatchMechanism.isExtended())
+      Robot.hatchMechanism.retract();
+    else
+      Robot.hatchMechanism.extend();
+  }
+
 }

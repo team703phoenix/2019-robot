@@ -20,7 +20,7 @@ public class ResetGyro extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.driveTrain.gyro.reset();
+    // /Robot.driveTrain.gyro.reset();
   }
 
 }

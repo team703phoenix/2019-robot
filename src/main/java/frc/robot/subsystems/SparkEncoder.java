@@ -18,16 +18,23 @@ public class SparkEncoder extends Encoder {
   private CANEncoder encoder;
 
   public SparkEncoder(CANSparkMax attachedMotor) {
+    this(attachedMotor, false);
+  }
+
+  /** Creates a new encoder */
+  public SparkEncoder(CANSparkMax attachedMotor, boolean inverted) {
+    super(inverted);
+
     encoder = new CANEncoder(attachedMotor);
   }
 
   @Override
   public double getRawPosition() {
-    return encoder.getPosition();
+    return (inverted) ? -encoder.getPosition() : encoder.getPosition();
   }
 
   @Override
   public double getVelocity() {
-    return encoder.getVelocity();
+    return (inverted) ? -encoder.getVelocity() : encoder.getVelocity();
   }
 }

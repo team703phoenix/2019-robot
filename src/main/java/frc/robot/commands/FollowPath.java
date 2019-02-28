@@ -46,7 +46,7 @@ public class FollowPath extends Command {
     rightTraj = PathfinderFRC.getTrajectory(pathName + ".right");
 
     Robot.driveTrain.resetEncoders();
-    Robot.driveTrain.gyro.reset();
+    //Robot.driveTrain.gyro.reset();
 
     EncoderFollower left = new EncoderFollower(leftTraj);
     left.configureEncoder((int)Robot.driveTrain.frontLeftEnc.getPosition(),
@@ -68,7 +68,8 @@ public class FollowPath extends Command {
       double leftOutput = left.calculate((int)Robot.driveTrain.frontRightEnc.getPosition());
       double rightOutput = right.calculate((int)Robot.driveTrain.frontLeftEnc.getPosition());
 
-      double gyroHeading = Robot.driveTrain.gyro.getAngle();
+      //double gyroHeading = Robot.driveTrain.gyro.getAngle();
+      double gyroHeading = 0;
       double desiredHeading = Pathfinder.r2d(left.getHeading());
       double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
       // I'm not sure how turn is calculated, I'm just copying code from the pathfinder documentation

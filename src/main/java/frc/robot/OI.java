@@ -12,82 +12,99 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.robot.commands.*;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
+  // Joysticks & controllers
+  Joystick driverController = new Joystick(0);
+  Joystick operatorController = new Joystick(1);
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
-
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
-
-  // Joysticks
-  Joystick controller = new Joystick(0);
-  //Joystick leftJoy = new Joystick(0);
-  //Joystick rightJoy = new Joystick(1);
-
-  // Axis mappings
+  // Driver controller axis mappings
   private final int X_DRIVE_AXIS = 0;
   private final int Y_DRIVE_AXIS = 1;
   private final int TURN_DRIVE_AXIS = 2;
   private final int LEFT_DRIVE_AXIS = 1;
   private final int RIGHT_DRIVE_AXIS = 3;
 
-  // Button mappings
-  private final int TOGGLE_LED_BTN = 4;
-  private final int DRIVE_TOWARD_TARGET_BTN = 1;
+  // Driver controller button mappings
+  private final int FRONT_CLIMBER_UP = 5;
+  private final int FRONT_CLIMBER_DOWN = 3;
+  private final int BACK_CLIMBER_UP = 6;
+  private final int BACK_CLIMBER_DOWN = 4;
+
+
+
+  // Operator controller axis mappings
+  private final int ELEVATOR_DRIVE_AXIS = 1;
+  private final int CARGO_INTAKE_AXIS = 3;
+
+  // Operator controller button mappings
+  private final int RESET_SENSORS_BTN = 1; // x
+  private final int TOGGLE_LED_BTN = 3; // b
+  private final int DRIVE_TOWARD_TARGET_BTN = 4; // y
+  private final int TEST_ELEVATOR_BTN = 2; // a
+  private final int TOGGLE_INTAKE_LIFT_BTN = 11; // Left thumb click
+  private final int INTAKE_CARGO_BTN = 7; // Left trigger
+  private final int SHOOT_CARGO_BTN = 8; // Right trigger
 
   public OI() {
-    JoystickButton toggleLED = new JoystickButton(controller, TOGGLE_LED_BTN),
-    driveTowardTarget = new JoystickButton(controller, DRIVE_TOWARD_TARGET_BTN),
-    resetSensors = new JoystickButton(controller, 5);
+    // Driver controller button initializations
+    JoystickButton frontClimberUp = new JoystickButton(driverController, FRONT_CLIMBER_UP),
+    frontClimberDown = new JoystickButton(driverController, FRONT_CLIMBER_DOWN),
+    backClimberUp = new JoystickButton(driverController, BACK_CLIMBER_UP),
+    backClimberDown = new JoystickButton(driverController, BACK_CLIMBER_DOWN);
 
-    toggleLED.toggleWhenPressed(new ControlVisionLight());
+    // Operator controller button initializations
+    JoystickButton toggleLED = new JoystickButton(operatorController, TOGGLE_LED_BTN),
+    driveTowardTarget = new JoystickButton(operatorController, DRIVE_TOWARD_TARGET_BTN),
+    resetSensors = new JoystickButton(operatorController, RESET_SENSORS_BTN),
+    testElevator = new JoystickButton(operatorController, TEST_ELEVATOR_BTN),
+    toggleIntakeLift = new JoystickButton(operatorController, TOGGLE_INTAKE_LIFT_BTN),
+    intakeCargo = new JoystickButton(operatorController, INTAKE_CARGO_BTN),
+    shootCargo = new JoystickButton(operatorController, SHOOT_CARGO_BTN);
+
+
+
+    // Driver controller button functions
+    frontClimberUp.whileHeld(new MoveFrontClimberUp());
+    frontClimberDown.whileHeld(new MoveFrontClimberDown());
+    backClimberUp.whileHeld(new MoveBackClimberUp());
+    backClimberDown.whileHeld(new MoveBackClimberDown());
+
+    // Operator controller button functions
+    toggleLED.whenPressed(new ToggleVisionLight());
     driveTowardTarget.toggleWhenPressed(new DriveTowardTarget(false));
     resetSensors.whenPressed(new ResetSensors());
+    testElevator.toggleWhenPressed(new CargoMoveToCargoShip());
+    toggleIntakeLift.whenPressed(new ToggleCargoIntakeLift());
+    intakeCargo.whileHeld(new ControlCargoIntake());
+    shootCargo.whileHeld(new ControlCargoShoot());
+
   }
 
   public double getXDrive() {
-    return controller.getRawAxis(X_DRIVE_AXIS);
+    return driverController.getRawAxis(X_DRIVE_AXIS);
   }
 
   public double getYDrive() {
-    return -controller.getRawAxis(Y_DRIVE_AXIS);
+    return -driverController.getRawAxis(Y_DRIVE_AXIS);
   }
 
   public double getTurnDrive() {
-    return controller.getRawAxis(TURN_DRIVE_AXIS);
+    return driverController.getRawAxis(TURN_DRIVE_AXIS);
   }
 
   public double getLeftDrive() {
-    return -controller.getRawAxis(LEFT_DRIVE_AXIS);
+    return -driverController.getRawAxis(LEFT_DRIVE_AXIS);
   }
 
   public double getRightDrive() {
-    return -controller.getRawAxis(RIGHT_DRIVE_AXIS);
+    return -driverController.getRawAxis(RIGHT_DRIVE_AXIS);
+  }
+
+  public double getElevatorDrive() {
+    return -operatorController.getRawAxis(ELEVATOR_DRIVE_AXIS);
+  }
+
+  public double getIntakeDrive() {
+    return -operatorController.getRawAxis(CARGO_INTAKE_AXIS);
   }
 }

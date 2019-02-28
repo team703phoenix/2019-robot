@@ -10,14 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class ResetElevatorEncoders extends InstantCommand {
-  public ResetElevatorEncoders() {
+public class ToggleHatchClamp extends InstantCommand {
+  public ToggleHatchClamp() {
+    requires(Robot.hatchMechanism);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.elevator.encoder.reset();
+    if (Robot.hatchMechanism.isClamped())
+      Robot.hatchMechanism.release();
+    else
+      Robot.hatchMechanism.clamp();
   }
 
 }

@@ -18,10 +18,9 @@ import frc.robot.commands.DriveWithController;
 
 public class DriveTrain extends Subsystem {
   // Constants
-  public static final double ACCELERATION_RATE = 0.05;
-  public static final double WHEEL_DIAMETER = 6.0; // Dummy value
-  public static final double DRIVE_DEADBAND = 0.07;
-  public static final double GYRO_CORRECTION_SCALER = 0.08;
+  public static final double ACCELERATION_RATE = 0.03;
+  public static final double WHEEL_DIAMETER = 6.0;
+  public static final double DRIVE_DEADBAND = Math.pow(0.20, 3);
 
   // Drive motors
   private CANSparkMax frontLeft1 = new CANSparkMax(RobotMap.FL_DRIVE_1, MotorType.kBrushless),
@@ -41,9 +40,6 @@ public class DriveTrain extends Subsystem {
   rearLeftEnc = new SparkEncoder(rearLeft1),
   frontRightEnc = new SparkEncoder(frontRight1), 
   rearRightEnc = new SparkEncoder(rearRight1);
-
-  // Gyro
-  public Gyro gyro = new Gyro(RobotMap.GYRO_ID);
 
   // Control variables
   private double xDrive = 0.0, yDrive = 0.0, turnDrive = 0.0;
@@ -97,24 +93,10 @@ public class DriveTrain extends Subsystem {
 
   /** Drives the robot using mecanum drive, with an acceleration curve */
   public void mecanumDrive() {
-    mecanumDrive(Robot.oi.getXDrive(), Robot.oi.getYDrive(), Robot.oi.getTurnDrive());
+    mecanumDrive(calculateDrive(Robot.oi.getXDrive()), calculateDrive(Robot.oi.getYDrive()),
+    calculateDrive(Robot.oi.getTurnDrive()));
   }
 
-  /** Drives the robot using mecanum drive in a field-oriented manner, with an acceleration curve */
-  public void mecanumDrive_fieldOriented(double x, double y, double turn) {
-    yDrive = accelDecel(y, yDrive);
-    xDrive = accelDecel(x, xDrive);
-    turnDrive = accelDecel(turn, turnDrive);
-
-    drive.driveCartesian((Math.abs(xDrive) > DRIVE_DEADBAND) ? xDrive : 0.0, 
-      (Math.abs(yDrive) > DRIVE_DEADBAND) ? yDrive : 0.0,
-      (Math.abs(turnDrive) > DRIVE_DEADBAND) ? turnDrive : 0.0, gyro.getFieldAngle());
-  }
-
-  /** Drives the robot using mecanum drive in a field-oriented manner, with an acceleration curve */
-  public void mecanumDrive_fieldOriented() {
-    mecanumDrive_fieldOriented(Robot.oi.getXDrive(), Robot.oi.getYDrive(), Robot.oi.getTurnDrive());
-  }
 
   /** Drives the robot using tank drive */
   public void tankDrive(double left, double right) {
@@ -124,9 +106,9 @@ public class DriveTrain extends Subsystem {
     mecanumDrive(0, forward, turn);
   }
 
-
+  /** DEPRECATED: Gyro isn't being used on the robot anymore. No angle correction will be done. */
   public void gyroAssistedDrive(double speed) {
-		mecanumDrive(0, speed, -getGyroCorrectionAngle());
+		mecanumDrive(0, speed, 0);
 	}
 
   public static double accelDecel(double desiredSpeed, double currentSpeed) {
@@ -183,10 +165,6 @@ public class DriveTrain extends Subsystem {
   /** Converts a raw axis value to the curve used for the drive */
   public double calculateDrive(double axis) {
     return Math.pow(axis, 3);
-  }
-
-  public double getGyroCorrectionAngle() {
-    return gyro.getAngle() * GYRO_CORRECTION_SCALER;
   }
 
   public double encoderInchesToTicks(double inches) {

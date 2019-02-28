@@ -10,12 +10,14 @@ package frc.robot.subsystems;
 public abstract class Encoder { 
   // Control variables
   protected double zeroedPosition = 0.0;
+  protected boolean inverted;
 
   public void initDefaultCommand() {
   }
-  
+
   /** Creates a new encoder */
-  public Encoder() {
+  public Encoder(boolean inverted) {
+    this.inverted = inverted;
   }
   
   /** Returns the raw, unzeroed position of the encoder in ticks */

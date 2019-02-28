@@ -10,22 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveElevatorToPosition extends Command {
-  // Control variables
-  private double absoluteHeight;
-
-  public MoveElevatorToPosition(double absoluteHeightInInches) {
-    requires(Robot.elevator);
-
-    this.absoluteHeight = absoluteHeightInInches;
+public class MoveBackClimberUp extends Command {
+  public MoveBackClimberUp() {
+    requires(Robot.climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.releaseBrake();
-    Robot.elevator.enable(); // Enables the PID controller
-    Robot.elevator.setSetpoint(absoluteHeight);
+    Robot.climber.moveBackUp();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -36,15 +29,13 @@ public class MoveElevatorToPosition extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.onTarget() || Robot.elevator.getLowerLimitSwitch();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.elevator.disable(); // Disables the PID controller
-    Robot.elevator.move(0.0);
-    Robot.elevator.engageBrake();
+    Robot.climber.stopBack();
   }
 
   // Called when another command which requires one or more of the same

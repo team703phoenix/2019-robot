@@ -9,13 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ResetSensors extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public ResetSensors() {
-    addParallel(new ResetDriveEncoders());
-    addParallel(new ResetGyro());
-    addParallel(new ResetElevatorEncoder());
+public class CargoMoveToCargoShip extends CommandGroup {
+  public CargoMoveToCargoShip() {
+    addSequential(new MoveElevatorToPosition(42.0)); // 3 ft 6 in
   }
 }

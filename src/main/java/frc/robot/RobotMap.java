@@ -19,5 +19,24 @@ public class RobotMap {
   public static final int ELEVATOR_MOTOR_1 = 21, ELEVATOR_MOTOR_2 = 22;
 
   // Elevator piston IDs
-  public static final int ELEVATOR_BRAKE = 0; // Dummy value
+  public static final int ELEVATOR_BRAKE = 0;
+
+  // Elevator limit switch IDs
+  public static final int ELEVATOR_LOWER_LIMIT_SWITCH = 0;
+
+  // Cargo intake motor IDs
+  public static final int CARGO_INTAKE_MOTOR = 23;
+
+  // Cargo intake piston IDs
+  public static final int CARGO_INTAKE_LIFT = 1;
+
+  // Hatch mechanism piston IDs
+  public static final int HATCH_CLAMP_PISTON = 2, HATCH_EXTEND_PISTON = 3;
+
+  // Climbing mechanism motor IDs
+  public static final int CLIMBER_FRONT_LEFT = 24, CLIMBER_FRONT_RIGHT = 25, CLIMBER_BACK = 26, 
+    CLIMBER_WHEELS = 27;
+
+  // Line follower photoelectric sensor IDs
+  public static final int LINE_FOLLOWER_LEFT = 1, LINE_FOLLOWER_RIGHT = 2;
 }

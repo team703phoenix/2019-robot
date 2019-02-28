@@ -14,18 +14,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Vision extends Subsystem {
   // Constants
-  private final int TARGET_PIPELINE = 0;
-  private final int CARGO_PIPELINE = 1;
+  private static final int TARGET_PIPELINE = 0;
+  private static final int CARGO_PIPELINE = 1;
+
+  public static final int LED_PIPELINE = 0;
+  public static final int LED_ON = 3;
+  public static final int LED_OFF = 1;
+  public static final int LED_BLINK = 2;
 
   // Limelight network table
   private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
   // Variables
   private double latestErrorX = 0.0;
-
-  // Timer
-  private Timer timer = new Timer();
-
+  
   @Override
   public void initDefaultCommand() {
   }
@@ -86,20 +88,28 @@ public class Vision extends Subsystem {
     setNumber("pipeline", pipelineID);
   }
 
+  public void setLED(int ledMode) {
+    setNumber("ledMode", ledMode);
+  }
+
   public void setPipelineLED() {
-    setNumber("ledMode", 0);
+    setLED(LED_PIPELINE);
   }
 
   public void setLEDOn() {
-    setNumber("ledMode", 3);
+    setLED(LED_ON);
   }
 
   public void setLEDOff() {
-    setNumber("ledMode", 1);
+    setLED(LED_OFF);
   }
 
   public void setLEDBlink() {
-    setNumber("ledMode", 2);
+    setLED(LED_BLINK);
+  }
+
+  public int getLEDMode() {
+    return getNumber("ledMode");
   }
 
   public void setVisionProcessingOn() {
@@ -110,11 +120,11 @@ public class Vision extends Subsystem {
     setNumber("camMode", 1);
   }
 
-  public void setTargetPipeline(int timeoutMs) {
+  public void setTargetPipeline() {
     setPipeline(TARGET_PIPELINE);
   }
 
-  public void setCargoPipeline(int timeoutMs) {
+  public void setCargoPipeline() {
     setPipeline(CARGO_PIPELINE);
   }
 

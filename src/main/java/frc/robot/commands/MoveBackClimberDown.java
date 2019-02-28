@@ -10,15 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ControlVisionLight extends Command {
-  public ControlVisionLight() {
-    requires(Robot.vision);
+public class MoveBackClimberDown extends Command {
+  public MoveBackClimberDown() {
+    requires(Robot.climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.vision.setLEDOn();
+    Robot.climber.moveBackDown();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -35,12 +35,13 @@ public class ControlVisionLight extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.vision.setLEDOff();
+    Robot.climber.stopBack();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

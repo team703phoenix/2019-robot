@@ -15,26 +15,27 @@ import frc.robot.subsystems.*;
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
   public static Elevator elevator;
+  public static CargoIntake cargoIntake;
+  public static HatchMechanism hatchMechanism;
+  public static ClimbingMechanism climber;
   public static Vision vision;
+  public static LineFollower lineFollower;
   public static OI oi;
 
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
     elevator = new Elevator();
+    cargoIntake = new CargoIntake();
+    hatchMechanism = new HatchMechanism();
+    climber = new ClimbingMechanism();
     vision = new Vision();
+    lineFollower = new LineFollower();
     oi = new OI();
-
-    driveTrain.gyro.hardReset();
   }
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Front left enc", driveTrain.frontLeftEnc.getPosition());
-    SmartDashboard.putNumber("Rear left enc", driveTrain.rearLeftEnc.getPosition());
-    SmartDashboard.putNumber("Front right enc", driveTrain.frontRightEnc.getPosition());
-    SmartDashboard.putNumber("rear right enc", driveTrain.rearRightEnc.getPosition());
-    SmartDashboard.putNumber("Gyro angle", driveTrain.gyro.getAngle());
   }
 
   @Override
@@ -49,6 +50,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    vision.setVisionProcessingOff();
+    cargoIntake.lower();
   }
 
   @Override
@@ -58,47 +61,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    driveTrain.gyro.hardReset();
+    vision.setVisionProcessingOn();
+    vision.setLEDOn();
+    cargoIntake.lower();
   }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println("ta: " + vision.getArea());
   }
 
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
   }
 }
-
-// ░░░░░░░░░░░░░░░░██████████████████
-// ░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░████
-// ░░░░░░░░░░██░░░░░░░░░░░░░░░░░░░░░░░░░░██
-// ░░░░░░░░░░██░░░░░░░░░░░░░░░░░░░░░░░░░░██
-// ░░░░░░░░██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
-// ░░░░░░░░██░░░░░░░░░░░░░░░░░░░░██████░░░░██
-// ░░░░░░░░██░░░░░░░░░░░░░░░░░░░░██████░░░░██
-// ░░░░░░░░██░░░░██████░░░░██░░░░██████░░░░██
-// ░░░░░░░░░░██░░░░░░░░░░██████░░░░░░░░░░██
-// ░░░░░░░░████░░██░░░░░░░░░░░░░░░░░░██░░████
-// ░░░░░░░░██░░░░██████████████████████░░░░██
-// ░░░░░░░░██░░░░░░██░░██░░██░░██░░██░░░░░░██
-// ░░░░░░░░░░████░░░░██████████████░░░░████
-// ░░░░░░░░██████████░░░░░░░░░░░░░░██████████
-// ░░░░░░██░░██████████████████████████████░░██
-// ░░░░████░░██░░░░██░░░░░░██░░░░░░██░░░░██░░████
-// ░░░░██░░░░░░██░░░░██████░░██████░░░░██░░░░░░██
-// ░░██░░░░████░░██████░░░░██░░░░██████░░████░░░░██
-// ░░██░░░░░░░░██░░░░██░░░░░░░░░░██░░░░██░░░░░░░░██
-// ░░██░░░░░░░░░░██░░██░░░░░░░░░░██░░██░░░░░░░░░░██
-// ░░░░██░░░░░░██░░░░████░░░░░░████░░░░██░░░░░░██
-// ░░░░░░████░░██░░░░██░░░░░░░░░░██░░░░██░░████
-// ░░░░░░░░██████░░░░██████████████░░░░██████
-// ░░░░░░░░░░████░░░░██████████████░░░░████
-// ░░░░░░░░██████████████████████████████████
-// ░░░░░░░░████████████████░░████████████████
-// ░░░░░░░░░░████████████░░░░░░████████████
-// ░░░░░░██████░░░░░░░░██░░░░░░██░░░░░░░░██████
-// ░░░░░░██░░░░░░░░░░████░░░░░░████░░░░░░░░░░██
-// ░░░░░░░░██████████░░░░░░░░░░░░░░██████████

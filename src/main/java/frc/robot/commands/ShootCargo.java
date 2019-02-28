@@ -9,17 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class ShootCargo extends Command {
   // Constants
   private static final double SHOOT_TIMEOUT = 1.0;
-  private static final double SHOOT_SPEED = 0.8;
+  public static final double INTAKE_DEADBAND = Math.pow(0.07, 3);
 
   // Timer
   private Timer timer = new Timer();
 
   public ShootCargo() {
-    //requires(Robot.cargoMechanism);
+    requires(Robot.cargoIntake);
   }
 
   // Called just before this Command runs the first time
@@ -32,6 +33,7 @@ public class ShootCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.cargoIntake.move((Math.abs(Robot.oi.getIntakeDrive()) > INTAKE_DEADBAND));
     //Robot.cargoMechanism.run(-SHOOT_SPEED);
   }
 
